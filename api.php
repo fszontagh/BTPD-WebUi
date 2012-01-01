@@ -15,6 +15,24 @@ include_once 'config.php';
 include_once 'class.btpdControl.php';
 include_once 'bencode.php';
 
+$lang = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+if (file_exists("lng/".$lang.".php")) {
+	$LANG = include("lng/".$lang.".php");
+	if ($LOGGING_LEVEL == LOG_VERBOSE) {
+		wlog("Loaded language file: lng/".$lang.".php");
+	}
+}elseif (file_exists("lng/".$DEFAULT_LANG.".php")){	
+	$LANG = include("lng/".$DEFAULT_LANG.".php");
+	if ($LOGGING_LEVEL == LOG_VERBOSE) {
+		wlog("Loaded config's default language file: lng/".$DEFAULT_LANG.".php");
+	}
+}else{
+	$LANG = include("lng/en.php");
+	if ($LOGGING_LEVEL == LOG_VERBOSE) {
+		wlog("Loaded default language file: lng/en.php");
+	}
+}
+
 /*	nice redirect	*/
 function Redirect() {
 	header("Refresh: 3; url=" . $_SERVER["HTTP_REFERER"]);
@@ -31,6 +49,7 @@ function Redirect() {
 }
 /*	set error hadler	*/
 function wlog($string) {
+	GLOBAL $WEBUI_ERROR_LOGS;
     if (is_array($string)) {
         $error_string = "[DEBUG]" . date("Y-m-d H:i:s") . ":" . print_r($string, true) . "\n";
     } else {
@@ -49,7 +68,35 @@ function wlog($string) {
         ), $string);
         $error_string = "[DEBUG]" . date("Y-m-d H:i:s") . ":" . $string . "\n";
     }
-    file_put_contents("/var/www/www/new/error.log", $error_string, FILE_APPEND);
+    file_put_contents($WEBUI_ERROR_LOGS, $error_string, FILE_APPEND);
+}
+function translator($key) {
+	GLOBAL $LANG;
+	if (isset($LANG[$key]) AND !empty($LANG[$key])) {		
+		return $LANG[$key];
+	}
+	return $key;
+}
+function languageToJS() {
+	GLOBAL $LANG;	
+	$return = "";
+	header("Content-Type: application/x-javascript;charset=utf-8");		
+	$return.= "var lng_strings = { \n"; 
+		
+		foreach ($LANG as $k=>$v) {				
+			$return.= "'".$k."': '".$v."',";
+			$return.= "\n";		
+		}
+		$return = substr($return,0,-2);
+		$return.= "\n};";
+		if ($LOGGING_LEVEL == LOG_VERBOSE) {
+			wlog("Loaded ".count($LANG)." lng strings...");
+		}
+	
+		header("Etag: ".md5($return));
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("lng/".$lang.".php")));
+	echo $return;
+	exit;
 }
 function errorHandler($errno, $errstr, $errfile, $errline) {
     $error_string = "[  PHP] " . date("Y-m-d H:i:s") . ": " . $errfile . " (" . $errline . "): " . $errstr . "\n";
@@ -129,6 +176,9 @@ function sanitize($string, $force_lowercase = true, $anal = false) {
     $clean = preg_replace('/\s+/', "-", $clean);
     $clean = ($anal) ? preg_replace("/[^a-zA-Z0-9]/", "", $clean) : $clean;
     return ($force_lowercase) ? (function_exists('mb_strtolower')) ? mb_strtolower($clean, 'UTF-8') : strtolower($clean) : $clean;
+}
+if (isset($_GET["LANGUAGE"]) AND !empty($_GET["LANGUAGE"])) {
+	languageToJS();
 }
 if (isset($argv)) {
     $req["cmd"] = $argv[1];
