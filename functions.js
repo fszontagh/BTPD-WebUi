@@ -129,7 +129,7 @@ var torrent_details = function(id) {
 				details_uploaded.html(bytesToSize(data[TOTUP],2,false,true));
 				details_session_up.html(bytesToSize(data[SESSUP],2,false,true));
 				details_session_down.html(bytesToSize(data[SESSDWN],2,false,true));
-				details_ratio.html(roundNumber(data[TOTDWN] / data[TOTUP],1));
+				details_ratio.html(roundNumber(data[TOTUP] / data[TOTDWN],1));
 				details_path.html(data[DIR]);
 				details_hash.html(data[IHASH]);
 				if (data[TRERR] == 0) {
