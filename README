@@ -1,0 +1,47 @@
+THE README
+
+*What is it?
+-This is an other WebUi for the btpd daemon. (https://github.com/btpd/btpd)
+
+
+This webui is based on the php-btpd project. (http://code.google.com/p/php-btpd/)
+
+
+
+INSTALL
+
+For installation, need 3 program for installed. 
+
+1.: btpd 
+2.: http server
+3.: configured PHP
+
+
+For http server, you can use the mongoose project, it can use php-cgi. For example in OpenSuse
+
+$ zypper install php5-fastcgi php5-sockets
+
+After the php installation, need collect the build dependencies for mongoose. Then download, and build it:
+
+$ wget http://mongoose.googlecode.com/files/mongoose-3.0.tgz
+$ tar xfv mongoose-3.0.tgz
+$ cd mongose-3.0
+$ make unix
+
+
+
+You can start now mongoose with same paramteres:
+$ ./mongoose -C .php -I /usr/bin/php-cgi -d no -i index.html -k yes -r /var/www/
+
+And then, copy the webui files to the /var/www directory, and edit the config.php file.
+
+Btpd for default, create a directory in the user's home directory for settings, and resume data with '.btpd' name.
+In the config file of the webui, change the $DATA variable to these directory path. For example:
+$DATA = "/home/username/.btpd";
+
+The $DATA_DIR variable is the path, for the downloaded data's path. If you don't want to download to the .btpd/files/ path, specify an other directory for it. 
+This directory must writeable for the btpd user. 
+
+It's  better thing, if you use same user for the http, btpd, and the downloads. 
+
+For bugreports, please use github's Issues channel.
