@@ -239,7 +239,7 @@
                  }
                  if (used < 50 && used > 25) {
                      bgcolor = '#DEE23E'; //yellow
-                     fgcolor = '#000000'
+                     fgcolor = '#fff'
                  }
                  if (used < 25) {
                      bgcolor = '#FF3B3E'; //red
