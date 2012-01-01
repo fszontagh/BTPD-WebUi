@@ -21,6 +21,15 @@ return array(
 	"used"=>"Használt",
 	"total"=>"Teljes",
 	"loading"=>"Töltés...",
-	"confirm_delete"=>"Valóban törölni szeretnéd a torrentet?"
+	"confirm_delete"=>"Valóban törölni szeretnéd a torrentet?",
+	"torrent_details"=>"Torrent részletei",
+	"downloaded_have"=> "Tartalom letöltve",
+	"session_up"=>"Utolsó indítás óta feltöltve",
+	"session_down"=>"Utolsó indítás óta letöltve",
+	"ratio"=> "Arány",
+	"path"=>"Útvonal",
+	"hash"=> "Info hash",
+	"error" => "Hiba",
+	"no_error" => "Nincs hiba"
 );
 

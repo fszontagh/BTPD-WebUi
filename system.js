@@ -140,7 +140,7 @@
                  procent = Math.round(procent) + "%";
 
                  var row_html = "<td class=\"torrent_name\">";
-                 row_html += "<small>(" + lpad(procent, ' ', 4) + ")</small> " + szoveg[7];
+                 row_html += "<small>(" + lpad(procent, ' ', 4) + ")</small> <span onclick=\"torrent_details("+szoveg[NUM]+")\">" + szoveg[7]+"</span>";
                  row_html += "</td>";
 
 
@@ -288,5 +288,32 @@ var translator = function() {
      var list_interval = setInterval(request, 1000);
      var space_interval = setInterval(space_req, 5000);
      translator();
+     var details_win = $("#details");
+    details_win.css({
+		"left" : (($(window).width()/2) - 200) + "px",
+		"top" :  (($(window).height()/2) - 250) + "px"
+	});
+	
 
  });
+ 
+$(window).resize(function() {	
+     var details_win = $("#details");
+     var overlay = $("#overlay");
+    overlay.css({
+		width: $(document).width(),
+		height: $(document).height
+	});
+     var new_left = (($(window).width()/2) - 200);
+     var new_top = (($(window).height()/2) - 250);
+     if (new_left < 0 ) {
+		 new_left = 0;
+	 }
+	 if (new_top < 0) {
+		 new_top = 0;
+	 }
+    details_win.css({
+		"left" : new_left + "px",
+		"top" :  new_top  + "px"
+	});	 
+});

@@ -303,6 +303,21 @@ switch ($req["cmd"]) {
         header("etag: " . md5($json));
         die($json);
         break;
+    case "details":
+    wlog("got details req: ".$req["id"]);
+    if (isset($req["id"]) AND is_numeric($req["id"])) {
+		$resp = $btpd->btpd_list_torrents($req["id"]);
+		if ($resp["code"]==0) {			
+			wlog("RESULT: ".print_r($resp["result"],true));
+			$resp["result"][0][$btpd::IHASH] = bin2hex($resp["result"][0][$btpd::IHASH]);
+			$json = json_encode(convertToJson($resp["result"][0]));
+			header("Content-Length: ".strlen($json));
+			die($json);
+		}else{
+			wlog("error on details req: ".$resp["code"]." RESULT: ".print_r($resp["result"],true));
+		}
+	}
+    break;
     default:
         echo "Unknown cmd: " . print_r($req, true);
 }

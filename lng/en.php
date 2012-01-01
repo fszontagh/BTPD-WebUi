@@ -21,6 +21,15 @@ return array(
 	"used"=>"Used",
 	"total"=>"Total",
 	"loading"=>"Loading...",
-	"confirm_delete"=>"Do you really want to delete?"
+	"confirm_delete"=>"Do you really want to delete?",
+	"torrent_details"=>"Torrent details",
+	"downloaded_have"=> "Content have",
+	"session_up"=>"Session uploaded",
+	"session_down"=>"Session downloaded",
+	"ratio"=> "Ratio",
+	"path"=>"Path",
+	"hash"=> "Info hash",
+	"error" => "Error",
+	"no_error" => "No error"
 );
 
