@@ -49,6 +49,9 @@
 
  var start_torrent = function (id) {
          $.ajax({
+			 error: function(Xhr,errorStr,throwmsg) {
+			 showerror(errorStr);
+		 },
              type: "POST",
              url: "api.php",
              dataType: "json",
@@ -58,6 +61,9 @@
 
  var stop_torrent = function (id) {
          $.ajax({
+			 error: function(Xhr,errorStr,throwmsg) {
+			 showerror(errorStr);
+		 },
              type: "POST",
              url: "api.php",
              dataType: "json",
@@ -66,9 +72,12 @@
      }
 
  var delete_torrent = function (id) {
-         var r = confirm("Do you really want to delete this torrent?");
+         var r = confirm(lng_strings["confirm_delete"]);
          if (r) {
              $.ajax({
+				 error: function(Xhr,errorStr,throwmsg) {
+			 showerror(errorStr);
+		 },
                  type: "POST",
                  url: "api.php",
                  data: "cmd=delete&id=" + id,
@@ -93,6 +102,9 @@
          dataType: "json",
          data: "cmd=list",
          ifModified: true,
+         error: function(Xhr,errorStr,throwmsg) {
+			 showerror(errorStr);
+		 },
          success: function (data) {
              var content;
              var sum_upspeed = 0;
@@ -187,7 +199,7 @@
 
              }
              document.title = "BTPD webui - U: " + bytesToSize(sum_upspeed, 0, true) + " D: " + bytesToSize(sum_downspeed, 0, true);
-             var html = "<td colspan=\"2\" class=\"torrent_name\">Summary: </td>" + "<td class=\"torrent_speed down\">" + bytesToSize(sum_downspeed, 2, true) + "</td>" + "<td class=\"torrent_speed up\">" + bytesToSize(sum_upspeed, 2, true) + "</td>" + "<td class=\"size\">" + sum_numpeer + "</td>" + "<td class=\"size\">" + bytesToSize(sum_downloaded, 2) + "</td>" + "<td class=\"size\">" + bytesToSize(sum_uploaded, 2) + "</td>" + "<td class=\"size\">" + bytesToSize(sum_allsize, 2) + "</td>" + "<td></td>";
+             var html = "<td colspan=\"2\" class=\"torrent_name\">"+lng_strings["summary"]+": </td>" + "<td class=\"torrent_speed down\">" + bytesToSize(sum_downspeed, 2, true) + "</td>" + "<td class=\"torrent_speed up\">" + bytesToSize(sum_upspeed, 2, true) + "</td>" + "<td class=\"size\">" + sum_numpeer + "</td>" + "<td class=\"size\">" + bytesToSize(sum_downloaded, 2) + "</td>" + "<td class=\"size\">" + bytesToSize(sum_uploaded, 2) + "</td>" + "<td class=\"size\">" + bytesToSize(sum_allsize, 2) + "</td>" + "<td></td>";
 
 
              if ($("#summary").length < 1) {
@@ -208,6 +220,9 @@
              dataType: "json",
              type: "POST",
              ifModified: true,
+             error: function(Xhr,errorStr,throwmsg) {
+			 showerror(errorStr);
+			},
              success: function (data) {
 
                  var bgcolor = '#BFBFBF'; //gray
@@ -233,7 +248,7 @@
 
 
 
-                 var allstring = "Free: " + bytesToSize(data["free"], 2) + " <small>(" + Math.round(used) + "%)</small> Used: " + bytesToSize(data["used"], 2) + " Total: " + bytesToSize(data["total"], 2);
+                 var allstring = lng_strings["free"]+": " + bytesToSize(data["free"], 2) + " <small>(" + Math.round(used) + "%)</small> "+lng_strings["used"]+": " + bytesToSize(data["used"], 2) + " "+lng_strings["total"]+": " + bytesToSize(data["total"], 2);
                  $(".meter-text").html(allstring);
                  $(".meter-text").css("color",fgcolor);
                  $(".meter-value").css("backgroundColor", bgcolor);
@@ -246,11 +261,32 @@
 
          });
      }
+     
+var translator = function() {
+//	lng_strings = new Array();
+//	lng_strings[0] = new Array();
+//	lng_strings[0][0] = "state";
+//	lng_strings[0][1] = "Állapot";
+	var bcontent = $("body").html();
+	console.info("Load "+lng_strings.length+" string to translate;");
+	$.each(lng_strings,function(key,val) {
+		console.info("replace "+key+ " with: "+val);
+		reg = new RegExp('\{'+key+'\}', 'gi');
+		bcontent = bcontent.replace(reg,val);				
+	});
+	
+//	for (i = 0; i< lng_strings.length; i++) {		
+//		reg = new RegExp('\{'+lng_strings[i][0]+'\}', 'gi');
+//		bcontent = bcontent.replace(reg,lng_strings[i][1]);		
+//	}	
+	$("body").html(bcontent);
+}     
  $(document).ready(function () {
      var li = $("#0");
      li.html("#a semmi");
 
      var list_interval = setInterval(request, 1000);
      var space_interval = setInterval(space_req, 5000);
+     translator();
 
  });
