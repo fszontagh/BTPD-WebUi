@@ -1,24 +1,24 @@
 <!--
         index.html
-        
-        Copyright 2011 gH0StArthour <ghostarthour@linux-o1pv>
-        
+
+        Copyright 2011 gH0StArthour <ghostarthour@gmail.com>
+
         This program is free software; you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation; either version 2 of the License, or
         (at your option) any later version.
-        
+
         This program is distributed in the hope that it will be useful,
         but WITHOUT ANY WARRANTY; without even the implied warranty of
         MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
         GNU General Public License for more details.
-        
+
         You should have received a copy of the GNU General Public License
         along with this program; if not, write to the Free Software
         Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
         MA 02110-1301, USA.
-        
-        
+
+
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -30,14 +30,14 @@
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 	<meta name="generator" content="Geany 0.20" />
 	<style type="text/css">
-			body {background-color: #000;color: #1E90FF; font-family: Tahoma; font-size: 12px;}	
+			body {background-color: #000;color: #1E90FF; font-family: Tahoma; font-size: 12px;}
 			#torrent_lista {width: 100%;}
 			#torrent_lista th {padding: 5px 10px;}
 			#torrent_lista td {padding: 2px;}
 			#torrent_lista tr:hover {background-color: #1A1A1A}
 			th.torrent_name {text-align:left;   font-weight: bold; min-width: 100px;}
 			th.torrent_speed { font-weight: bold; min-width: 80px;}
-			.torrent_name { color: #fff;min-width: 100px;}	
+			.torrent_name { color: #fff;min-width: 100px;}
 			.torrent_speed { min-width: 80px; text-align:right;}
 			.torrent_state { text-align:center; }
 			.torrent_peers { text-align: right;}
@@ -50,7 +50,7 @@
 			.control-start:hover { color: #2DCE2D; }
 			.control-stop:hover, .control-delete:hover {color: #FF0000;}
 
-			
+
 			.meter-wrap{
 				position: fixed;
 				right: 0;
@@ -58,17 +58,16 @@
 			}
 
 			.meter-wrap, .meter-value, .meter-text {
-				/* The width and height of your image */
 				width: 100%;height: 25px;
 			}
 
 			.meter-wrap, .meter-value {
-				background: #1A1A1A;				
+				background: #1A1A1A;
 			}
 			.meter-value {
 				opacity: .8
 			}
-						
+
 			.meter-text {
 				position: absolute;
 				margin-top: 5px;
@@ -83,50 +82,50 @@
 			#summary td.torrent_name { color: #FFFF9A}
 			#error { position: absolute; top:10%;left:0;width:100%;background-color:#D60C0C;z-index: 9999; opacity: 0.9;display:none;}
 			#error p {	margin: 5px; text-align:center; font-size: 14px; font-family: Arial;color: #fff;font-weight: bold;}
-			
+
 	</style>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="api.php?LANGUAGE=1"></script>
 	<script type="text/javascript" src="system.js"></script>
-	<script type="text/javascript" src="api.php?LANGUAGE=1"> </script>   
 </head>
 
 <body>
 	<div id="error">
 		<p>
-			
+
 		</p>
 	</div>
 	<form method="POST" action="api.php" enctype="multipart/form-data">
 			<input type="file" name="upload"/>
 			<input type="submit" name='up' value="add"/>
 	</form>
-	<table id="torrent_lista" cellpadding="0" cellspacing="0">		
-	
+	<table id="torrent_lista" cellpadding="0" cellspacing="0">
+
 	<caption>
 	<div class="meter-wrap">
     <div class="meter-value" style="width: 0%;">
         <div class="meter-text">
-            Loading...
+            {loading}
         </div>
     </div>
 </div>
 	</caption>
 	<thead>
 		<tr>
-			<th class="torrent_name">Name</th>
-			<th class="torrent_state">State</th>
-			<th class="torrent_speed">Down Speed</th>			
-			<th class="torrent_speed">Up Speed</th>
-			<th class="torrent_speed">Peers</th>
-			<th>Downloaded</th>
-			<th>Uploaded</th>
-			<th>Full size</th>			
-			<th>CONTROL</th>			
+			<th class="torrent_name">{name}</th>
+			<th class="torrent_state">{state}</th>
+			<th class="torrent_speed">{down_speed}</th>
+			<th class="torrent_speed">{up_speed}</th>
+			<th class="torrent_speed">{peers}</th>
+			<th>{downloaded}</th>
+			<th>{uploaded}</th>
+			<th>{full_size}</th>
+			<th>{control}</th>
 		</tr>
 	</thead>
 	</table>
-	
+
 </body>
 
 </html>
