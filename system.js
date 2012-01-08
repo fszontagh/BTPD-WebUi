@@ -72,6 +72,39 @@ var stop_torrent = function (id) {
         data: "cmd=stop&id=" + id
     });
 }
+var getAvailableLanguages = function () {
+    $.ajax({
+        error: function(Xhr,errorStr,throwmsg) {
+            showerror(errorStr,true);
+        },
+        type: "POST",
+        url: "api.php",
+        dataType: "json",
+        data: "LANG_LIST=get",
+        success: function(data) {            
+           for (var i = 0; i < data.length; i++) {
+              $("#language_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+           }
+        }
+    });
+}
+
+var getAvailableThemes = function () {
+    $.ajax({
+        error: function(Xhr,errorStr,throwmsg) {
+            showerror(errorStr,true);
+        },
+        type: "POST",
+        url: "api.php",
+        dataType: "json",
+        data: "THEME_LIST=get",
+        success: function(data) {            
+           for (var i = 0; i < data.length; i++) {
+              $("#theme_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+           }
+        }
+    });
+}
 
 var delete_torrent = function (id) {
     var r = confirm(lng_strings["confirm_delete"]);
@@ -334,7 +367,8 @@ $(document).ready(function () {
         "left" : (($(window).width()/2) - 200) + "px",
         "top" :  (($(window).height()/2) - 250) + "px"
     });
-
+    getAvailableLanguages();
+    getAvailableThemes();
 
 });
 

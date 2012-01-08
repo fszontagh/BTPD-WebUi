@@ -30,6 +30,9 @@ return array(
 	"path"=>"Path",
 	"hash"=> "Info hash",
 	"error" => "Error",
-	"no_error" => "No error"
+	"no_error" => "No error",
+        "change_language"=>"Change language",
+        "change_theme"=>"Change theme",
+        "upload_torrent"=>"Add torrent"
 );
 

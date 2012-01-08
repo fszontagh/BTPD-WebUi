@@ -28,7 +28,7 @@
 <head>
 	<title>BTPD webui</title>
 	<meta http-equiv="content-type" content="text/html;charset=utf-8" />	
-        <link rel="stylesheet" href="theme/black/style.css" type="text/css"/>
+        <link rel="stylesheet" href="api.php?THEME=1" type="text/css"/>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="functions.js"></script>
 	<script type="text/javascript" src="api.php?LANGUAGE=1"></script>
@@ -58,8 +58,15 @@
 		
 	</div>
 	<form method="POST" action="api.php" enctype="multipart/form-data">
+            <span>{upload_torrent}:</span>
 			<input type="file" name="upload"/>
 			<input type="submit" name='up' value="add"/>
+                        <span>{change_language}:</span>
+                        <select name="language_selector" id="language_selector"></select>
+                        <span>{change_theme}:</span>
+                        <select name="theme_selector" id="theme_selector">
+            
+        </select>
 	</form>
 	<table id="torrent_lista" cellpadding="0" cellspacing="0">
 

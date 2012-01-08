@@ -47,6 +47,38 @@ function Redirect() {
 					setInterval(rem,1000);			
 					</script>";
 }
+function themes($in_json=true) {
+    $g = glob("theme/*",GLOB_ONLYDIR);
+    $theme_list = array();
+    for ($i = 0;$i < count($g);$i++) {
+        $theme_list+=str_replace("theme/","",$g[$i]);
+    }
+    return ($in_json?json_encode($theme_list):$theme_list);
+}
+function getTheme($name = null) {
+    GLOBAL $THEME;
+    if ($name == null) { $name = $THEME; }
+    if ($name != $THEME) {
+        if (is_dir("theme/".$name)) {
+            $THEME = $name;
+        }
+    }
+    
+    if (isset($THEME) && is_dir("theme/".$THEME)) {
+        if (file_exists("theme/".$THEME."/style.css")) {
+            $content = file_get_contents("theme/".$THEME."/style.css");
+            header("Content-Type: text/css");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("theme/".$THEME."/style.css")) . " GMT");
+            header("Etag: ".md5($content));
+            header("Content-Length: ".filesize("theme/".$THEME."/style.css"));
+            echo "/*theme path: theme/".$THEME."/style.css*/\n";
+            exit($content);            
+        }
+    }
+    header("HTTP/1.0 404 Not Found");
+    header("Status: 404 Not Found");
+    exit;
+}
 /*	set error hadler	*/
 function wlog($string) {
 	GLOBAL $WEBUI_ERROR_LOGS;
@@ -180,6 +212,33 @@ function sanitize($string, $force_lowercase = true, $anal = false) {
 if (isset($_GET["LANGUAGE"]) AND !empty($_GET["LANGUAGE"])) {
 	languageToJS();
 }
+if (isset($_POST["LANG_LIST"]) AND !empty($_POST["LANG_LIST"])) {
+    header("Content-Type: application/json");
+    $lglob = glob('lng/*.php');
+    $return = array();
+    for ($li = 0; $li < count($lglob); $li++) {
+        $return[]=str_replace(array("lng/",".php"),array("",""),$lglob[$li]);
+    }
+    die(json_encode($return));
+}
+if (isset($_POST["THEME_LIST"]) AND !empty($_POST["THEME_LIST"])) {
+    header("Content-Type: application/json");
+    $lglob = glob('theme/*',GLOB_ONLYDIR);
+    $return = array();
+    for ($li = 0; $li < count($lglob); $li++) {
+        $return[]=str_replace("theme/","",$lglob[$li]);
+    }
+    die(json_encode($return));
+}
+
+
+if (isset($_GET["THEME"]) AND !empty($_GET["THEME"])) {
+    $name = null;
+    if ($_GET["THEME"]!=1) {
+        $name = $_GET["THEME"];
+    }
+    getTheme($name);
+}
 if (isset($argv)) {
     $req["cmd"] = $argv[1];
 } else {
@@ -302,7 +361,7 @@ switch ($req["cmd"]) {
         header("Content-Type: application/json");
         header("etag: " . md5($json));
         die($json);
-        break;
+    break;
     case "details":
     wlog("got details req: ".$req["id"]);
     if (isset($req["id"]) AND is_numeric($req["id"])) {

@@ -30,6 +30,9 @@ return array(
 	"path"=>"Útvonal",
 	"hash"=> "Info hash",
 	"error" => "Hiba",
-	"no_error" => "Nincs hiba"
+	"no_error" => "Nincs hiba",
+        "change_language"=>"Nyelv választása",
+        "change_theme"=>"Megjelenés választása",
+        "upload_torrent"=>"Torrent hozzáadása"
 );
 
