@@ -50,7 +50,7 @@
  var start_torrent = function (id) {
          $.ajax({
 			 error: function(Xhr,errorStr,throwmsg) {
-			 showerror(errorStr);
+			 showerror(errorStr,true);
 		 },
              type: "POST",
              url: "api.php",
@@ -62,7 +62,7 @@
  var stop_torrent = function (id) {
          $.ajax({
 			 error: function(Xhr,errorStr,throwmsg) {
-			 showerror(errorStr);
+			 showerror(errorStr,true);
 		 },
              type: "POST",
              url: "api.php",
@@ -76,7 +76,7 @@
          if (r) {
              $.ajax({
 				 error: function(Xhr,errorStr,throwmsg) {
-			 showerror(errorStr);
+			 showerror(errorStr,true);
 		 },
                  type: "POST",
                  url: "api.php",
@@ -86,7 +86,7 @@
                          if (data["resp"] == "ok") {
                              $("#row_" + id).fadeOut(1200);
                          } else {
-                             showerror(data["resp"]);
+                             showerror(data["resp"],true);
                          }
                      }
 
@@ -103,10 +103,13 @@
          data: "cmd=list",
          ifModified: true,
          error: function(Xhr,errorStr,throwmsg) {
-			 showerror(errorStr);
+			 showerror(errorStr,true);
 		 },
          success: function (data) {
-             var content;
+             if (data["err"] && data["err"].length>0) {
+                 showerror(data["err"],true);                 
+                 return;
+             }
              var sum_upspeed = 0;
              var sum_downspeed = 0;
              var sum_uploaded = sum_downloaded = sum_allsize = sum_numpeer = 0;
@@ -221,7 +224,7 @@
              type: "POST",
              ifModified: true,
              error: function(Xhr,errorStr,throwmsg) {
-			 showerror(errorStr);
+			 showerror(errorStr,true);
 			},
              success: function (data) {
 

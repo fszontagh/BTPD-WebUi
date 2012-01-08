@@ -55,6 +55,7 @@ var hideerror = function() {
 			return;
 		}
 		e.fadeOut(1200);		
+                $("#torrent_lista").animate({"opacity":1},1000);
 }
 var autohideerror = function(secs) {
 	if (typeof(secs)!='integer') {
@@ -67,10 +68,12 @@ var autohideerror = function(secs) {
 }
 
 var showerror = function(string,autohide) {
-	var el = $("#err");
-	el.html(string);
+	var el = $("#error");
+        var elp = $("#error p");
+	elp.html(string);
 	if (el.css("display")=='none') {
 		el.fadeIn(1200);
+                $("#torrent_lista").animate({"opacity":0},1000);
 	}
 	if (autohide)  {
 		autohideerror();

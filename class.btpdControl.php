@@ -55,7 +55,10 @@ class btpdControl {
     const TRERR = 35;
 
     function __construct($path) {
-	if (! is_dir($path)) die('Invalid path');
+	if (! is_dir($path)) {
+         //   die('Invalid path');
+            die(json_encode(array("err"=>"Invalid: \$PATH=".$path)));
+        }
 	if (! is_writable($path . '/sock')) die('btpd socket not found');
 	$this->btpd_home = $path;
     } // __construct
