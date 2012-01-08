@@ -266,22 +266,11 @@
      }
      
 var translator = function() {
-//	lng_strings = new Array();
-//	lng_strings[0] = new Array();
-//	lng_strings[0][0] = "state";
-//	lng_strings[0][1] = "Állapot";
 	var bcontent = $("body").html();
-	console.info("Load "+lng_strings.length+" string to translate;");
 	$.each(lng_strings,function(key,val) {
-		console.info("replace "+key+ " with: "+val);
 		reg = new RegExp('\{'+key+'\}', 'gi');
 		bcontent = bcontent.replace(reg,val);				
 	});
-	
-//	for (i = 0; i< lng_strings.length; i++) {		
-//		reg = new RegExp('\{'+lng_strings[i][0]+'\}', 'gi');
-//		bcontent = bcontent.replace(reg,lng_strings[i][1]);		
-//	}	
 	$("body").html(bcontent);
 }     
  $(document).ready(function () {
