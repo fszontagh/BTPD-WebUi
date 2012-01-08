@@ -1,0 +1,46 @@
+/* 
+    Document   : style.css
+    Created on : 2012.01.08., 13:58:59
+    Author     : gH0StArthour <ghostarthour@gmail.com>
+    Description:
+        Black stylesheet for BTPD-Webui
+*/
+
+body {background-color: #000;color: #1E90FF; font-family: Tahoma; font-size: 12px;}
+#torrent_lista {width: 100%;}
+#torrent_lista th {padding: 5px 10px;}
+#torrent_lista td {padding: 2px;}
+#torrent_lista tr:hover {background-color: #1A1A1A}
+th.torrent_name {text-align:left;   font-weight: bold; min-width: 100px;}
+th.torrent_speed { font-weight: bold; min-width: 80px;}
+.torrent_name { color: #fff;min-width: 100px;}
+.torrent_name span { cursor: pointer; }
+.torrent_speed { min-width: 80px; text-align:right;}
+.torrent_state { text-align:center; }
+.torrent_peers { text-align: right;}
+.torrent_control {color:#fff;text-align:center;}
+.up, .control-start { color: #52F352; }
+.down, .control-stop, .control-delete { color: #FF4300; }
+.size {text-align:right;}
+.error { color: red; }
+.control-start,.control-stop, .control-delete { cursor: pointer; }
+.control-start:hover { color: #2DCE2D; }
+.control-stop:hover, .control-delete:hover {color: #FF0000;}
+.meter-wrap{ position: fixed; right: 0; bottom:0;}
+.meter-wrap,
+.meter-value,
+.meter-text {width: 100%;height: 25px;}
+.meter-wrap,
+.meter-value { background: #1A1A1A;}
+.meter-value { opacity: .8; left: 0;}
+.meter-text {position: absolute;margin-top: 5px;top:0; left:0;text-align: center;width: 100%;font-size: 12px;font-weight: bold;color: #fff;}
+#summary td{ border-top: 2px solid #1A1A1A; padding-top: 5px;}
+#summary td.torrent_name { color: #FFFF9A}
+#error { position: absolute; top:10%;left:0;width:100%;background-color:#D60C0C;z-index: 9999; opacity: 0.9;display:none;}
+#error p {padding: 10px; ;margin: 5px; text-align:center; font-size: 14px; font-family: Arial;color: #fff;font-weight: bold;}
+#details { display: none; z-index: 999999; background-color: #000; position: fixed; top: 2%; left: auto; width: 400px; height: 500px; overflow-y: auto; border: 1px solid #fff;}
+#details p { float:left; margin: 8px 1px; border: 0;}
+#details p.header { font-weight: bold; text-align: left;padding-left: 5px; width: 120px;}
+#details h3 { text-align:center; border-bottom: 1px solid #fff; }
+.clear { clear:both; }
+#overlay {display: none; opacity: 0.8; position: fixed; top: 0; left: 0; background-color: #1A1A1A; z-index: 99999; padding: 0;margin: 0;border: 0;}
