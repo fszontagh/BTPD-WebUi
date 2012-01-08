@@ -184,7 +184,7 @@ request = function () {
 
                if (!exists) {
                     torrent_name.attr("class","torrent_name");
-                    torrent_name.html("<small>(" + lpad(procent, ' ', 4) + ")\\n</small> <span onclick=\"torrent_details("+szoveg[NUM]+")\">"+ szoveg[7]+"</span>");
+                    torrent_name.html("<small>(" + lpad(procent, ' ', 4) + ")\n</small> <span onclick=\"torrent_details("+szoveg[NUM]+")\">"+ szoveg[7]+"</span>");
                }
 
 
