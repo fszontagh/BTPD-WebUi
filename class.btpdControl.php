@@ -56,19 +56,20 @@ class btpdControl {
 
     function __construct($path) {
 	if (! is_dir($path)) {
-         //   die('Invalid path');
             die(json_encode(array("err"=>"Invalid: \$PATH=".$path)));
         }
-	if (! is_writable($path . '/sock')) die('btpd socket not found');
+	if (! is_writable($path . '/sock')) {
+            die(json_encode(array("err"=>"btpd socket not found!".$path . "/sock")));
+        }
 	$this->btpd_home = $path;
     } // __construct
 
     private function connect() {
 	if (! $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0)) {
-	    die(socket_strerror(socket_last_error()));
+            die(json_encode(array("err"=>socket_strerror(socket_last_error()))));
 	}
 	if (! socket_connect($this->socket, $this->btpd_home . '/sock')) {
-	    die(socket_strerror(socket_last_error()));
+            die(json_encode(array("err"=>socket_strerror(socket_last_error()))));
 	}
     } // connect
 
@@ -79,7 +80,7 @@ class btpdControl {
     private function sendmsg($data) {
 	$data = pack('I', strlen($data)) . $data;
 	if (! $result=socket_write($this->socket, $data)) {
-	    die(socket_strerror(socket_last_error()));
+	    die(json_encode(array("err"=>socket_strerror(socket_last_error()))));
 	}
 	return $result;
     } // sendmsg
@@ -103,7 +104,9 @@ class btpdControl {
 	$this->sendmsg($bencoder->bencode($data));
 	$result = $bencoder->bdecode($this->recvmsg());
 	$this->disconnect();
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result)) {
+            die(json_encode(array("err"=>"Invalid response from btpd daemon")));
+        }
 	return $result;
     } // req_result
 
@@ -114,7 +117,9 @@ class btpdControl {
 	    array('from' => ($from > 0 ? array($from) : 0),
 		'keys' => array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18)));
 	$result = $this->req_result($command);
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result)) { 
+            die(json_encode(array("err"=>"Invalid response from btpd daemon")));             
+        }
 	return $result;
     } // list_torrents
 
@@ -127,7 +132,9 @@ class btpdControl {
 	if (strlen($name) > 0) $args['name']=$name;
 	array_push($command, $args);
 	$result = $this->req_result($command);
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result)) {
+            die(json_encode(array("err"=>"Invalid response from btpd daemon")));
+        }
 	return $result;
     } // add_torrent
 
@@ -135,7 +142,7 @@ class btpdControl {
 	if (! preg_match('/^\d+$/', $id)) return;
 	$command = array('del', $id);
 	$result = $this->req_result($command);
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result))  { die(json_encode(array("err"=>"Invalid response from btpd daemon"))); }
 	return $result;
     } // del_torrent
 
@@ -143,7 +150,7 @@ class btpdControl {
 	if (! preg_match('/^\d+$/', $id)) return;
 	$command = array('start', $id);
 	$result = $this->req_result($command);
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result))  { die(json_encode(array("err"=>"Invalid response from btpd daemon"))); }
 	return $result;
     } // start_torrent
 
@@ -151,7 +158,7 @@ class btpdControl {
 	if (! preg_match('/^\d+$/', $id)) return;
 	$command = array('stop', $id);
 	$result = $this->req_result($command);
-	if (! is_array($result)) die('Invalid responce from btpd (' . __CLASS__ . ':' . __METHOD__ . ' Line:' . __LINE__ . ')');
+	if (! is_array($result))  { die(json_encode(array("err"=>"Invalid response from btpd daemon"))); }
 	return $result;
     } // del_torrent
 
