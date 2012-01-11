@@ -81,9 +81,15 @@ var getAvailableLanguages = function () {
         url: "api.php",
         dataType: "json",
         data: "LANG_LIST=get",
-        success: function(data) {            
+        success: function(data) {   
+           var current_lang = Get_Cookie("language");                        
            for (var i = 0; i < data.length; i++) {
-              $("#language_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+               if (current_lang == data[i]) {
+                    $("#language_selector").append("<option selected=\"selected\" value='"+data[i]+"'>"+data[i]+"</option>");                   
+               }else{
+                    $("#language_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+               }
+              
            }
         }
     });
@@ -98,9 +104,14 @@ var getAvailableThemes = function () {
         url: "api.php",
         dataType: "json",
         data: "THEME_LIST=get",
-        success: function(data) {            
+        success: function(data) {   
+           var current_theme = Get_Cookie("theme");               
            for (var i = 0; i < data.length; i++) {
-              $("#theme_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+               if (current_theme == data[i]) {
+                   $("#theme_selector").append("<option selected=\"selected\" value='"+data[i]+"'>"+data[i]+"</option>");              
+               }else{
+                    $("#theme_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+               }
            }
         }
     });
@@ -203,8 +214,8 @@ request = function () {
                     var child = row.children("td");
                     torrent_name = $(child[0]);
                     torrent_state = $(child[1]);
-                    torrent_upspeed = $(child[2]);
-                    torrent_downspeed = $(child[3]);
+                    torrent_upspeed = $(child[3]);
+                    torrent_downspeed = $(child[2]);
                     torrent_peers = $(child[4]);
                     torrent_up = $(child[5]);
                     torrent_down = $(child[6]);
@@ -217,7 +228,7 @@ request = function () {
 
                if (!exists) {
                     torrent_name.attr("class","torrent_name");
-                    torrent_name.html("<small>(" + lpad(procent, ' ', 4) + ")\n</small> <span onclick=\"torrent_details("+szoveg[NUM]+")\">"+ szoveg[7]+"</span>");
+                    torrent_name.html("<span onclick=\"torrent_details("+szoveg[NUM]+")\">"+ szoveg[7]+"</span>");
                }
 
 
@@ -356,8 +367,7 @@ var translator = function() {
     $("body").html(bcontent);
 }
 $(document).ready(function () {
-    var li = $("#0");
-    li.html("#a semmi");
+   
 
     var list_interval = setInterval(request, 1000);
     var space_interval = setInterval(space_req, 5000);
@@ -370,7 +380,42 @@ $(document).ready(function () {
     getAvailableLanguages();
     getAvailableThemes();
 
+$('#theme_selector').bind("change",function(){
+   Set_Cookie("theme", $("#theme_selector option:selected").text());
+   window.location = document.URL;
 });
+$('#language_selector').bind("change",function(){  
+  Set_Cookie("language", $("#language_selector option:selected").text());
+  window.location = document.URL;
+  translator();
+});
+
+  
+  var onSampleResized = function(e){  
+    var table = $(e.currentTarget); //reference to the resized table
+  };  
+/*
+ $("#torrent_lista").colResizable({
+    liveDrag:false,
+    minWidth: "150px",
+    gripInnerHtml:"<div class='grip'></div>", 
+    draggingClass:"dragging", 
+   // onResize:onSampleResized
+  });    
+  */
+
+  $("#torrent_lista").colResizable();
+  $("#torrent_lista tr td").css({
+      "border": '1px solid #cacaca'
+  });
+
+
+
+});
+ /*   $('#theme_selector').change(function() {
+    alert('Handler for .change() called.');
+    });*/
+
 
 $(window).resize(function() {
     var details_win = $("#details");

@@ -15,7 +15,14 @@ include_once 'config.php';
 include_once 'class.btpdControl.php';
 include_once 'bencode.php';
 
-$lang = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));
+if (isset($_COOKIE["language"]) AND !empty($_COOKIE["language"])) {
+    $lang = $_COOKIE["language"];
+}else{
+    $lang = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2));    
+}
+if (isset($_COOKIE["theme"]) AND !empty($_COOKIE["theme"])) {
+    $THEME = $_COOKIE["theme"];
+}
 if (file_exists("lng/".$lang.".php")) {
 	$LANG = include("lng/".$lang.".php");
 	if ($LOGGING_LEVEL == LOG_VERBOSE) {
@@ -68,8 +75,8 @@ function getTheme($name = null) {
         if (file_exists("theme/".$THEME."/style.css")) {
             $content = file_get_contents("theme/".$THEME."/style.css");
             header("Content-Type: text/css");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("theme/".$THEME."/style.css")) . " GMT");
-            header("Etag: ".md5($content));
+        //    header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("theme/".$THEME."/style.css")) . " GMT");
+        //    header("Etag: ".md5($content));
             header("Content-Length: ".filesize("theme/".$THEME."/style.css"));
             echo "/*theme path: theme/".$THEME."/style.css*/\n";
             exit($content);            
@@ -125,8 +132,8 @@ function languageToJS() {
 			wlog("Loaded ".count($LANG)." lng strings...");
 		}
 	
-		header("Etag: ".md5($return));
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("lng/".$lang.".php")));
+	//	header("Etag: ".md5($return));
+        //	header("Last-Modified: " . gmdate("D, d M Y H:i:s",filemtime("lng/".$lang.".php")));
 	echo $return;
 	exit;
 }
@@ -359,7 +366,7 @@ switch ($req["cmd"]) {
         ));
         header("Content-Length: " . strlen($json));
         header("Content-Type: application/json");
-        header("etag: " . md5($json));
+        //header("etag: " . md5($json));
         die($json);
     break;
     case "details":

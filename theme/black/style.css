@@ -7,13 +7,13 @@
 */
 
 body {background-color: #000;color: #1E90FF; font-family: Tahoma; font-size: 12px;}
-#torrent_lista {width: 100%;}
-#torrent_lista th {padding: 5px 10px;}
+#torrent_lista {width: 100%;margin-bottom: 28px;}
+#torrent_lista th {padding: 5px 10px;border: 1px solid #cacaca;text-align: center}
 #torrent_lista td {padding: 2px;}
 #torrent_lista tr:hover {background-color: #1A1A1A}
 th.torrent_name {text-align:left;   font-weight: bold; min-width: 100px;}
 th.torrent_speed { font-weight: bold; min-width: 80px;}
-.torrent_name { color: #fff;min-width: 100px;}
+.torrent_name { color: #fff;min-width: 100px;width:35%;}
 .torrent_name span { cursor: pointer; }
 .torrent_speed { min-width: 80px; text-align:right;}
 .torrent_state { text-align:center; }

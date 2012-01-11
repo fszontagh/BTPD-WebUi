@@ -8,12 +8,12 @@
 
 
 body { min-height: 800px; background-image: url("theme/helloKitty/imgs/hello-kitty.jpg");background-repeat: no-repeat; background-position: right bottom; background-color: #fff;color: #ff006a;font-family: Tahoma;font-size: 12px;}
-#torrent_lista {width: 100%;height: 100%;min-height: 456px;}
+#torrent_lista {width: 100%;height: 100%;min-height: 456px;margin-bottom: 35px;}
 #torrent_lista th {padding: 5px 10px;color: #ff006a; text-transform: uppercase;border-bottom: 1px dashed #000;}
 #torrent_lista th:hover td {background-color: none;}
 #torrent_lista td {padding: 2px;opacity: 0.7}
 #torrent_lista tr:hover {background-color: #ffd7e8; }
-th.torrent_name {text-align:left;   font-weight: bold; min-width: 100px;}
+th.torrent_name {text-align:left;   font-weight: bold; min-width: 100px;width: 35%;}
 th.torrent_speed { font-weight: bold; min-width: 80px;}
 .torrent_name { color: #ff006a;min-width: 100px;}
 .torrent_name span { cursor: pointer; }
