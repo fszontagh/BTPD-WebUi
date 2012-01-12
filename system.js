@@ -217,8 +217,8 @@ request = function () {
                     torrent_upspeed = $(child[3]);
                     torrent_downspeed = $(child[2]);
                     torrent_peers = $(child[4]);
-                    torrent_up = $(child[5]);
-                    torrent_down = $(child[6]);
+                    torrent_down = $(child[5]);
+                    torrent_up = $(child[6]);                    
                     torrent_tdown = $(child[7]);
                     torrent_control = $(child[8]);
                 }
