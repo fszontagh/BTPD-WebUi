@@ -33,6 +33,7 @@ return array(
 	"no_error" => "No error",
         "change_language"=>"Change language",
         "change_theme"=>"Change theme",
-        "upload_torrent"=>"Add torrent"
+        "upload_torrent"=>"Add torrent",
+        "target_directory"=>"Target directory"
 );
 

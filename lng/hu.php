@@ -33,6 +33,7 @@ return array(
 	"no_error" => "Nincs hiba",
         "change_language"=>"Nyelv választása",
         "change_theme"=>"Megjelenés választása",
-        "upload_torrent"=>"Torrent hozzáadása"
+        "upload_torrent"=>"Torrent hozzáadása",
+        "target_directory"=>"Cél könyvtár"
 );
 
