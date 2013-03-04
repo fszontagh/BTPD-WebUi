@@ -49,6 +49,33 @@ var start_timed_fader = function (i,max) {
     timed_fader_obj = setInterval("timed_fader_time_up(" + i + ", "+max+")", 100);
 }
 
+var list_available_directories = function () {
+	//show_directory
+	
+    $.ajax({
+        error: function(Xhr,errorStr,throwmsg) {
+            showerror(errorStr,true);
+        },
+        type: "GET",
+        url: "api.php",
+        dataType: "json",
+        data: "show_directory=ALL",
+        success: function(data) {
+			var current_dir = Get_Cookie("target_directory"); 
+			$('#directory_selector').find('option').remove()
+           for (var i = 0; i < data.length; i++) {
+               if (current_dir == data[i]) {
+                    $("#directory_selector").append("<option selected=\"selected\" value='"+data[i]+"'>"+data[i]+"</option>");                   
+               }else{
+                    $("#directory_selector").append("<option value='"+data[i]+"'>"+data[i]+"</option>");              
+               }
+              
+           }
+		}
+    });	
+	
+}
+
 var start_torrent = function (id) {
     $.ajax({
         error: function(Xhr,errorStr,throwmsg) {
@@ -371,6 +398,9 @@ $(document).ready(function () {
 
     var list_interval = setInterval(request, 1000);
     var space_interval = setInterval(space_req, 5000);
+    list_available_directories();
+    //var directorylist_interval = setInterval(list_available_directories,5000);
+    
     translator();
     var details_win = $("#details");
     details_win.css({
@@ -379,6 +409,10 @@ $(document).ready(function () {
     });
     getAvailableLanguages();
     getAvailableThemes();
+
+$('#directory_selector').bind("change",function(){
+   Set_Cookie("target_directory", $("#directory_selector option:selected").text());   
+});
 
 $('#theme_selector').bind("change",function(){
    Set_Cookie("theme", $("#theme_selector option:selected").text());

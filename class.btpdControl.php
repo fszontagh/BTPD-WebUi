@@ -125,7 +125,19 @@ class btpdControl {
 
     public function btpd_add_torrent($torrent, $path, $name = '') {
 	$bencoder = new BEncodeLib();
-	$command = array('add');
+	$command = array('add');	
+	$r = $bencoder->bdecode($torrent);
+	
+	if (substr($path,-1)!=DIRECTORY_SEPARATOR) {
+		$path.=DIRECTORY_SEPARATOR;
+	}
+	if (isset($r["info"]["name"]) AND !empty($r["info"]["name"])) {
+		$path.= $r["info"]["name"];
+	}
+	if (!file_exists($path)) {
+		mkdir($path);
+	}	
+	
 	$args = array('content' => $path,
 		'torrent' => $torrent
 	    );

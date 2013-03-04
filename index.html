@@ -60,6 +60,8 @@
 	<form method="POST" action="api.php" enctype="multipart/form-data">
             <span>{upload_torrent}:</span>
 			<input type="file" name="upload"/>
+						<span>{target_directory}:</span>
+						<select name="directory_selector" id="directory_selector"></select>
 			<input type="submit" name='up' value="add"/>
                         <span>{change_language}:</span>
                         <select name="language_selector" id="language_selector"></select>

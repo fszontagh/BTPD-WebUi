@@ -251,6 +251,28 @@ if (isset($argv)) {
 } else {
     $req = $_POST;
 }
+
+/*	select target directory*/
+
+if (isset($_GET["show_directory"]) AND !empty($_GET["show_directory"])) {
+	$start_dir = htmlspecialchars($_GET["show_directory"]);
+	//if ($CHROOT_TO_DATA_PATH) {
+		$dpath = glob($DATA_PATH."/*",GLOB_ONLYDIR);
+	//}
+	$paths = array();
+	$paths[] = "";
+	foreach ($dpath as $num => $p) {
+		$paths[] = str_replace($DATA_PATH.DIRECTORY_SEPARATOR,"",$p);
+	}
+	echo json_encode($paths);
+	exit;
+}
+
+
+/*function glob_only_dir($dir) {
+	
+}*/
+
 $btpd = new btpdControl($PATH);
 /*		handle torrent upload	*/
 if (isset($_FILES["upload"]) AND !empty($_FILES["upload"])) {
@@ -260,7 +282,12 @@ if (isset($_FILES["upload"]) AND !empty($_FILES["upload"])) {
         mkdir("tmp");
     }
     if (move_uploaded_file($_FILES["upload"]["tmp_name"], $name)) {
-        $content = file_get_contents($name);
+        $content = file_get_contents($name);        
+        if (isset($_COOKIE["target_directory"]) AND !empty($_COOKIE["target_directory"])) {
+			if (is_dir($DATA_PATH.DIRECTORY_SEPARATOR.$_COOKIE["target_directory"]))  {
+				$DATA_PATH.=DIRECTORY_SEPARATOR.$_COOKIE["target_directory"];
+			}
+		}
         $resp    = $btpd->btpd_add_torrent($content, $DATA_PATH); 
         echo "<html><head><title>Add torrent</title><style type=\"text/css\">body{background-color: #000;color:#fff;} a,a:visited {color:#1E90FF;}</style></head><body>";       
         if ($resp["code"] != 0) {
